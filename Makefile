@@ -4,7 +4,7 @@
 # For gfortran
 #=============
 f90 = gfortran
-flags = -O3 -fopenmp -ffast-math
+flags = -Ofast -fopenmp
 
 #=============
 # For ifort
