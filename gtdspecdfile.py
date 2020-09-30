@@ -141,8 +141,7 @@ def main():
 
 def collect_values(args):
     '''Collect the pertinent information from file, and verify it.'''
-    from chem import collect
-    from prep import abs_file_path
+    from chemPackage import collect
     from numpy import array, reshape
 
     # Check that when the excited states are listed with the excite option,
@@ -156,11 +155,11 @@ def collect_values(args):
             sys.exit('# of --excite and --dirs must be equal')
         # If --dirs is 1, then fill to match excite
         if len(args.dirs) == 1 and len(args.excite) > 1:
-            for i in xrange(1, len(args.excite), 1):
+            for i in range(1, len(args.excite), 1):
                 args.dirs.append(args.dirs[0])
         # If --excited is 1, then fill to match excite
         if len(args.excited) == 1 and len(args.excite) > 1:
-            for i in xrange(1, len(args.excite), 1):
+            for i in range(1, len(args.excite), 1):
                 args.excited.append(args.excited[0])
             
     # Collect the ground state geometry and normal modes, and make
@@ -194,7 +193,7 @@ def collect_values(args):
             es[i].es = args.excite[i]
             assert 'DELTAS' in es[i].calctype, (
                     'The EXCITED directory {0} did not yield deltas'.format(
-                                                   abs_file_path(args.dirs[i])))
+                                                   args.dirs[i]))
         else:
             es.append(collect(f))
             assert 'EXCITED STATE' in es[i].calctype, (
@@ -221,7 +220,7 @@ def collect_values(args):
 
 def calculate_deltas(md, es, args):
     '''Prep for the Delta calculation, and determine which method to use.'''
-    from chem.constants import atomic_mass, HBAR, PI, LIGHT
+    from chemPackage.constants import atomic_mass, HBAR, PI, LIGHT
     from numpy import fastCopyAndTranspose as fcat
     from numpy import array, sqrt, zeros
 
@@ -284,7 +283,7 @@ def optimization_method(md, es, CONVERSION, rt_mass, args):
 
     **NOTE** the mass-weighted delta has units of mass^(1/2)*length.
     '''
-    from chem.constants import AMU
+    from chemPackage.constants import AMU
     from numpy import sum as npsum
     from numpy import zeros
     from math import sqrt
@@ -335,10 +334,10 @@ def gradient_method(md, es, CONVERSION, rt_mass, args):
     is the excitation energy gradient along mode Q_j in mass-weighted units,
     and L_{ij} is the normal mode vector in normal coordinates.
     '''
-    from chem.constants import AMU, PI
-    from chem.constants import HART2WAVENUM as H2WN
-    from chem.constants import ANGSTROM2BOHR as A2B
-    from chem.constants import BOHR2CM as B2CM
+    from chemPackage.constants import AMU, PI
+    from chemPackage.constants import HART2WAVENUM as H2WN
+    from chemPackage.constants import ANGSTROM2BOHR as A2B
+    from chemPackage.constants import BOHR2CM as B2CM
     from numpy import sum as npsum
     from numpy import zeros
     from math import sqrt
